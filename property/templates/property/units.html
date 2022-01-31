@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="row d-flex justify-content-center border border-white">
+    {% if show_form %}
+    <div class="col-md-4">
+        <div class="card card-body bg-dark text-light">
+            <h3>UNITS FORM</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy}}
+                <button class="btn btn-sm btn-success" type="submit">Save</button>
+                <button class="btn btn-sm btn-danger" type="reset">Cancel</button>
+            </form>
+        </div>
+        
+        <div class="card card-body bg-dark text-light">
+            <h3>SEARCH UNITS</h3>
+            <form method="get">
+                {% csrf_token %}
+                {{ myFilter.form|crispy }}
+                <button class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    <div class="col-md-8">
+        <div class="d-flex align-items-center justify-content-between">
+            <h3 class="text-light">UNITS</h3>
+            <a href="{% url 'create-unit' %}" class="btn btn-primary btn-lg">
+                Create Unit
+            </a>
+            <a class="btn btn-primary btn-lg" href="{% url 'unit-types' %}">Go To Unit Types</a>
+        </div>
+        
+        <table class="table table-success table-striped table-bordered border border-white">
+            <thead>
+                <th>Property</th>
+                <th>Name</th>
+                <th>Principal</th>
+                <th>Type</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for unit in units %}
+                    <tr>
+                        <td>{{ unit.property | title }}</td>
+                        <td>{{ unit.name | title  }}</td>
+                        <td>{{ unit.property.principal }}</td>
+                        <td>{{ unit.type }}</td>
+                        <td><a href="#" class="btn btn-sm btn-success">View</a></td>
+                        <td><a href="{% url 'update-unit' unit.id %}" class="btn btn-sm btn-primary">Update</a></td>
+                        <td><a href="{% url 'delete-unit' unit.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

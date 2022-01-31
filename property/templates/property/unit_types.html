@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row d-flex justify-content-center border border-white">
+    <div class="col-md-4">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-labe text-white h3">Unit Type</label>
+              <input type="text" class="form-control" name="unittype" value="{{unit_type}}" placeholder="Enter Property Type">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+    <div class="col-md-4">
+        <h3>UNIT TYPES</h3>
+        <a class="btn btn-primary btn-sm" href="{% url 'create-unit-type' %}">Create New Unit Type</a>
+        <a class="btn btn-secondary btn-sm" href="{% url 'create-unit' %}">Create New Unit</a>
+        <table class="table table-success table-striped table-bordered border border-white">
+            <thead>
+                <th>UNIT TYPE</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for type in unit_types %}
+                <tr>
+                    <td>{{ type | title }}</td>
+                    <td><a href="{% url 'update-unit-type' type.id %}" class="btn btn-success btn-sm">Update</a></td>
+                    <td><a href="{% url 'delete-unit-type' type.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+                </tr>                
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+{% endblock %}

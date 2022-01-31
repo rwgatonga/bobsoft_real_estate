@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row d-flex justify-content-center border border-white">
+    <div class="col-md-4">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-labe text-white h3">Profile Type</label>
+              <input type="text" class="form-control" name="profiletype" value="{{profile_type}}" placeholder="Enter Type of Profile">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+    <div class="col-md-7">
+        <h3>PROFILE TYPES</h3>
+        <a class="btn btn-primary" href="{% url 'create-profile-type' %}">Create New Profile Type</a>
+        <table class="table table-success table-striped table-bordered border border-white">
+            <thead>
+                <th>Profile Type</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for type in profile_types %}
+                <tr>
+                    <td>{{ type | title }}</td>
+                    <td><a href="{% url 'update-profile-type' type.id %}" class="btn btn-success btn-sm">Update</a></td>
+                    <td><a href="{% url 'delete-profile-type' type.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+                    <td><a href="{% url 'create-profile' type.id %}" class="btn btn-danger btn-sm">Create Profile</a></td>
+                </tr>                
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+{% endblock %}

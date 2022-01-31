@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="row d-flex justify-content-center border border-white">
+    <div class="col-md-4">
+        {% if show_form %}
+        <div class="card card-body bg-dark text-light">
+            <h3 class="text-light">{{ profile_type.name | title }}</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy}}
+                <button class="btn btn-sm btn-success" type="submit">Save</button>
+                <button class="btn btn-sm btn-danger" type="reset">Cancel</button>
+            </form>
+        </div>
+        {% endif %}
+        
+        <div class="card card-body bg-dark text-light">
+            <h3>SEARCH PROFILES</h3>
+            <form method="get">
+                {% csrf_token %}
+                {{ myFilter.form|crispy }}
+                <button class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8 border border-white">
+        <div class="d-flex align-items-center justify-content-between">
+            <h3 class="text-light">PROFILES</h3>
+            <a class="btn btn-primary btn-lg" href="{% url 'profile-types' %}">Go To Profile Types</a>
+        </div>
+        
+        <table class="table table-success table-striped table-bordered border border-white">
+            <thead>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for profile in profiles %}
+                    <tr>
+                        <td>{{ profile.name | title }}</td>
+                        <td>{{ profile.type | title  }}</td>
+                        <td><a href="#" class="btn btn-sm btn-success">View</a></td>
+                        <td><a href="{% url 'update-profile' profile.id %}" class="btn btn-sm btn-primary">Update</a></td>
+                        <td><a href="{% url 'delete-profile' profile.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="row d-flex justify-content-center border border-white">
+    {% if show_form %}
+    <div class="col-md-4">
+        <div class="card card-body bg-dark text-light">
+            <h3>UNITS OCCUPANCY FORM</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy}}
+                <button class="btn btn-sm btn-success" type="submit">Save</button>
+                <button class="btn btn-sm btn-danger" type="reset">Cancel</button>
+            </form>
+        </div>
+        
+        <div class="card card-body bg-dark text-light">
+            <h3>SEARCH UNIT OCCUPANCIES</h3>
+            <form method="get">
+                {% csrf_token %}
+                {{ myFilter.form|crispy }}
+                <button class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    <div class="col-md-8">
+        <div class="d-flex align-items-center justify-content-between">
+            <h3 class="text-light">OCCUPANCIES</h3>
+            <a href="{% url 'create-occupancy' %}" class="btn btn-primary btn-lg">
+                Make Unit Placement
+            </a>
+         </div>
+        
+        <table class="table table-success table-striped table-bordered border border-white">
+            <thead>
+                <th>Property</th>
+                <th>Unit</th>
+                <th>Tenant</th>
+                <th>Date In</th>
+                <th>Date Notice</th>
+                <th>Date Out</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for occupancy in occupancies %}
+                    <tr>
+                        <td>{{ occupancy.unit.property | title }}</td>
+                        <td>{{ occupancy.unit | title }}</td>
+                        <td>{{ occupancy.tenant | title  }}</td>
+                        <td>{{ occupancy.date_in }}</td>
+                        <td>{{ occupancy.date_notice }}</td>
+                        <td>{{ occupancy.date_out }}</td>
+                        <td><a href="{% url 'update-occupancy' occupancy.id %}" class="btn btn-sm btn-primary">Update</a></td>
+                        <td><a href="{% url 'delete-occupancy' occupancy.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
