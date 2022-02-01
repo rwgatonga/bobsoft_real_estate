@@ -82,7 +82,7 @@ class Property_Type(models.Model):
 class Property(models.Model):
     name = models.CharField(max_length=50, unique=True)
     principal = models.ForeignKey(
-        Profile, on_delete=models.SET_NULL, blank=True, null=True)
+        Profile, related_name='property_principal', on_delete=models.SET_NULL, blank=True, null=True)
     location = models.CharField(max_length=50)
     type = models.ForeignKey(
         Property_Type, on_delete=models.SET_NULL, blank=True, null=True)

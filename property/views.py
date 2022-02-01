@@ -124,7 +124,7 @@ def create_profile(request, type_pk):
     show_form = True
     form = ProfileForm()
     profile_type = Profile_Type.objects.get(id=type_pk)
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.filter(type=profile_type)
     myFilter = ProfileFilter(request.GET, queryset=profiles)
     profiles = myFilter.qs
     context = {'show_form': show_form, 'form': form,
@@ -133,8 +133,8 @@ def create_profile(request, type_pk):
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
-            profile=form.save(commit=False)
-            profile.type=profile_type
+            profile = form.save(commit=False)
+            profile.type = profile_type
             profile.save()
             return redirect('profiles')
         else:
@@ -149,7 +149,7 @@ def update_profile(request, pk):
     profile = Profile.objects.get(id=pk)
     profile_type = profile.type
     form = ProfileForm(instance=profile)
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.filter(type=profile_type)
     myFilter = ProfileFilter(request.GET, queryset=profiles)
     profiles = myFilter.qs
     context = {'show_form': show_form, 'form': form,
@@ -158,8 +158,8 @@ def update_profile(request, pk):
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
-            profile=form.save(commit=False)
-            profile.type=profile_type
+            profile = form.save(commit=False)
+            profile.type = profile_type
             profile.save()
             return redirect('profiles')
         else:
@@ -227,28 +227,33 @@ def delete_property_type(request, pk):
 def properties(request):
     show_form = False
     form = PropertyForm()
+    principals = Profile.objects.filter(type__name='principal')
     properties = Property.objects.all()
     myFilter = PropertyFilter(request.GET, queryset=properties)
     properties = myFilter.qs
     context = {'show_form': show_form, 'form': form,
-               'properties': properties, 'myFilter': myFilter}
+               'properties': properties, 'myFilter': myFilter, 'principals': principals}
     return render(request, 'property/properties.html', context)
 
 
 @login_required(login_url='login')
-def create_property(request):
+def create_property(request, princ_pk):
     show_form = True
     form = PropertyForm()
-    properties = Property.objects.all()
+    princ = Profile.objects.get(id=princ_pk)
+    principals = Profile.objects.filter(type__name='principal')
+    properties = Property.objects.filter(principal=princ_pk)
     myFilter = PropertyFilter(request.GET, queryset=properties)
     properties = myFilter.qs
     context = {'show_form': show_form, 'form': form,
-               'properties': properties, 'myFilter': myFilter}
+               'properties': properties, 'myFilter': myFilter, 'principals': principals, 'principal': princ}
 
     if request.method == 'POST':
         form = PropertyForm(request.POST)
         if form.is_valid():
-            form.save()
+            property = form.save(commit=False)
+            property.principal = princ
+            property.save()
             return redirect('properties')
         else:
             messages.error(request, " Something went wrong")
@@ -259,18 +264,22 @@ def create_property(request):
 @login_required(login_url='login')
 def update_property(request, pk):
     show_form = True
-    properties = Property.objects.get(id=pk)
+    property = Profile.Property_set.filter(id=pk)
+    principals = Profile.objects.filter(type__name='principal')
+    princ = Profile.objects.filter(name__principal=)
+    properties = Property.objects.filter(principal=princ)
     form = PropertyForm(instance=property)
-    properties = Property.objects.all()
     myFilter = PropertyFilter(request.GET, queryset=properties)
     properties = myFilter.qs
     context = {'show_form': show_form, 'form': form,
-               'properties': properties, 'myFilter': myFilter}
+               'properties': properties, 'myFilter': myFilter, 'principals': principals, 'principal': princ}
 
     if request.method == 'POST':
         form = PropertyForm(request.POST, instance=property)
         if form.is_valid():
-            form.save()
+            property = form.save(commit=False)
+            property.principal = princ
+            property.save()
             return redirect('properties')
         else:
             messages.error(request, " Something went wrong")

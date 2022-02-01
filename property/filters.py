@@ -13,7 +13,7 @@ class PropertyFilter(django_filters.FilterSet):
     class Meta:
         model = Property
         fields = '__all__'
-        exclude = ['created', 'updated', 'location']
+        exclude = ['name', 'created', 'updated', 'location']
 
 
 class UnitFilter(django_filters.FilterSet):

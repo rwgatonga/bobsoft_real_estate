@@ -7,7 +7,7 @@
     {% if show_form %}
     <div class="col-md-4">
         <div class="card card-body bg-dark text-light">
-            <h3>PROPERTIES FORM</h3>
+            <h3>PROPERTIES - {{  principal | title }}</h3>
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form|crispy}}
@@ -27,12 +27,26 @@
     </div>
     {% endif %}
     <div class="col-md-8">
+        <h3 class="text-light">PRINCIPALS</h3>
+        <table class="table table-success table-striped table-bordered border border-white">
+            <thead>
+                <th>Principal</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for principal in principals %}
+                    <tr>
+                        <td>{{ principal.name | title }}</td>
+                        <td><a href="#" class="btn btn-sm btn-success">View</a></td>
+                        <td><a href="{% url 'create-property' principal.id %}" class="btn btn-sm btn-primary">Create Property</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         <div class="d-flex align-items-center justify-content-between">
             <h3 class="text-light">PROPERTIES</h3>
-            <a href="{% url 'create-property' %}" class="btn btn-primary btn-lg">
-                Create Property
-            </a>
-            <a class="btn btn-primary btn-lg" href="{% url 'property-types' %}">Go To property Types</a>
+            <a class="btn btn-primary btn-lg" href="{% url 'property-types' %}">Property Types</a>
         </div>
         
         <table class="table table-success table-striped table-bordered border border-white">

@@ -20,7 +20,7 @@ class PropertyForm(ModelForm):
     class Meta:
         model = Property
         fields = '__all__'
-        exclude = ['created', 'updated']
+        exclude = ['principal', 'created', 'updated']
 
 
 class UnitOccupancyForm(ModelForm):

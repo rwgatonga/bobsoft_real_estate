@@ -28,7 +28,7 @@
                     <td>{{ type | title }}</td>
                     <td><a href="{% url 'update-profile-type' type.id %}" class="btn btn-success btn-sm">Update</a></td>
                     <td><a href="{% url 'delete-profile-type' type.id %}" class="btn btn-danger btn-sm">Delete</a></td>
-                    <td><a href="{% url 'create-profile' type.id %}" class="btn btn-danger btn-sm">Create Profile</a></td>
+                    <td><a href="{% url 'create-profile' type.id %}" class="btn btn-primary btn-sm">Create {{type|title}}</a></td>
                 </tr>                
                 {% endfor %}
             </tbody>

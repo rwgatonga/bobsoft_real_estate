@@ -35,7 +35,7 @@ urlpatterns = [
          views.delete_property_type, name='delete-property-type'),
 
     path('properties/', views.properties, name='properties'),
-    path('create-property/', views.create_property,
+    path('create-property/<str:princ_pk>/', views.create_property,
          name='create-property'),
     path('update-property/<str:pk>/',
          views.update_property, name='update-property'),

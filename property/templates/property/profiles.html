@@ -39,6 +39,7 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
             </thead>
             <tbody>
                 {% for profile in profiles %}
@@ -48,6 +49,7 @@
                         <td><a href="#" class="btn btn-sm btn-success">View</a></td>
                         <td><a href="{% url 'update-profile' profile.id %}" class="btn btn-sm btn-primary">Update</a></td>
                         <td><a href="{% url 'delete-profile' profile.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+                        <td><a href="{% url 'create-profile' profile.type.id %}" class="btn btn-primary btn-sm">Create {{profile.type|title}}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
