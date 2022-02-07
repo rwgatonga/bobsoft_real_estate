@@ -1,5 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>Home</div>
+<div class="row">
+    <div class="col-md-4">
+        <h4 class="text-light">PROPERTIES</h4>
+        <table class="table table-sm table-success">
+            <thead>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for property in properties %}
+                    <tr>
+                        <td>{{ property.name | title }}</td>
+                        <td>{{ property.type | title  }}</td>
+                        <td>{{ property.location }}</td>
+                        <td><a href="#" class="btn btn-sm btn-success">View</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h4 class="text-light">TENANTS</h4>
+        <table class="table table-sm table-success table-striped table-bordered border border-white">
+            <thead>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for profile in tenants %}
+                    <tr>
+                        <td>{{ profile.name | title }}</td>
+                        <td>{{ profile.type | title  }}</td>
+                        <td><a href="#" class="btn btn-sm btn-success">View</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h4 class="text-light">VACANT UNITS</h4>
+        <table class="table table-sm table-success table-striped table-bordered border border-white">
+            <thead>
+                <th>Property</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for unit in units %}
+                    <tr>
+                        <td>{{ unit.property.name| title }}</td>
+                        <td>{{ unit.name | title  }}</td>
+                        <td>{{ unit.type }}</td>
+                        <td><a href="#" class="btn btn-sm btn-success">View</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

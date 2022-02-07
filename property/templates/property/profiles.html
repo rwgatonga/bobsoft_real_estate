@@ -4,10 +4,10 @@
 
 {% block content %}
 <div class="row d-flex justify-content-center border border-white">
-    <div class="col-md-4">
+    <div class="col-md-3 font-small">
         {% if show_form %}
         <div class="card card-body bg-dark text-light">
-            <h3 class="text-light">{{ profile_type.name | title }}</h3>
+            <h4 class="text-light">{{ profile_type.name | title }}</h4>
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form|crispy}}
@@ -18,7 +18,7 @@
         {% endif %}
         
         <div class="card card-body bg-dark text-light">
-            <h3>SEARCH PROFILES</h3>
+            <h4>SEARCH PROFILES</h4>
             <form method="get">
                 {% csrf_token %}
                 {{ myFilter.form|crispy }}
@@ -26,13 +26,13 @@
             </form>
         </div>
     </div>
-    <div class="col-md-8 border border-white">
+    <div class="col-md-9 border border-white">
         <div class="d-flex align-items-center justify-content-between">
-            <h3 class="text-light">PROFILES</h3>
+            <h4 class="text-light">PROFILES</h4>
             <a class="btn btn-primary btn-lg" href="{% url 'profile-types' %}">Go To Profile Types</a>
         </div>
         
-        <table class="table table-success table-striped table-bordered border border-white">
+        <table class="table table-sm table-success table-striped table-bordered border border-white">
             <thead>
                 <th>Name</th>
                 <th>Type</th>

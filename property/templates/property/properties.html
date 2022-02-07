@@ -17,18 +17,18 @@
         </div>
         
         <div class="card card-body bg-dark text-light">
-            <h3>SEARCH PROPERTIES</h3>
+            <h4>SEARCH PROPERTIES</h4>
             <form method="get">
                 {% csrf_token %}
                 {{ myFilter.form|crispy }}
-                <button class="btn btn-primary">Search</button>
+                <button class="btn btn-sm btn-primary">Search</button>
             </form>
         </div>
     </div>
     {% endif %}
     <div class="col-md-8">
-        <h3 class="text-light">PRINCIPALS</h3>
-        <table class="table table-success table-striped table-bordered border border-white">
+        <h4 class="text-light">PRINCIPALS</h4>
+        <table class="table table-sm table-success">
             <thead>
                 <th>Principal</th>
                 <th></th>
@@ -45,11 +45,11 @@
             </tbody>
         </table>
         <div class="d-flex align-items-center justify-content-between">
-            <h3 class="text-light">PROPERTIES</h3>
+            <h4 class="text-light">PROPERTIES</h4>
             <a class="btn btn-primary btn-lg" href="{% url 'property-types' %}">Property Types</a>
         </div>
         
-        <table class="table table-success table-striped table-bordered border border-white">
+        <table class="table table-sm table-success">
             <thead>
                 <th>Name</th>
                 <th>Type</th>

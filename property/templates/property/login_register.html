@@ -5,16 +5,16 @@
 {% block content %}
 
 {% if page == 'login' %}
-<div class="col-md-6 d-flex justify-content-center border border-white">
+<div class="col-md-6 d-flex m-auto border border-white text-light">
     <form method="POST" action="">
         {% csrf_token %}
         <div class="mb-3">
           <label class="form-label">Username</label>
-          <input type="text" class="form-control" name="username" placeholder="Enter Username">
+          <input type="text" class="form-control-sm" name="username" placeholder="Enter Username">
         </div>
         <div class="mb-3">
           <label class="form-label">Password</label>
-          <input type="password" class="form-control" name="password" placeholder="Enter Password">
+          <input type="password" class="form-control-sm" name="password" placeholder="Enter Password">
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
@@ -22,7 +22,7 @@
 
 {% else %}
 
-<div class="col-md-6 d-flex justify-content-center border border-white text-light bg-dark">
+<div class="col-md-6 d-flex m-auto border border-white text-light">
     <form method="POST" action="">
         {% csrf_token %}
        {{form|crispy}}

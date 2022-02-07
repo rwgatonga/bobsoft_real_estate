@@ -3,6 +3,7 @@
 {% block content %}
 <div class="row d-flex justify-content-center border border-white">
     <div class="col-md-4">
+        {% if show_form %}
         <form method="POST">
             {% csrf_token %}
             <div class="mb-3">
@@ -11,11 +12,11 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
+          {% endif %}
     </div>
-    <div class="col-md-4">
+    <div class="col-md-7">
         <h3>UNIT TYPES</h3>
-        <a class="btn btn-primary btn-sm" href="{% url 'create-unit-type' %}">Create New Unit Type</a>
-        <a class="btn btn-secondary btn-sm" href="{% url 'create-unit' %}">Create New Unit</a>
+        <a class="btn table-sm btn-primary btn-sm" href="{% url 'create-unit-type' %}">Create New Unit Type</a>
         <table class="table table-success table-striped table-bordered border border-white">
             <thead>
                 <th>UNIT TYPE</th>

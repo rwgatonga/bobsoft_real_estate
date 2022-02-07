@@ -14,7 +14,7 @@ urlpatterns = [
     path('create-profile-type/', views.create_profile_type,
          name='create-profile-type'),
     path('update-profile-type/<str:pk>/',
-         views.update_property_type, name='update-profile-type'),
+         views.update_profile_type, name='update-profile-type'),
     path('delete-profile-type/<str:pk>/',
          views.delete_profile_type, name='delete-profile-type'),
 
@@ -51,7 +51,7 @@ urlpatterns = [
          views.delete_unit_type, name='delete-unit-type'),
    
    path('units/', views.units, name='units'),
-    path('create-unit/', views.create_unit,
+    path('create-unit/<str:pk>/', views.create_unit,
          name='create-unit'),
     path('update-unit/<str:pk>/',
          views.update_unit, name='update-unit'),

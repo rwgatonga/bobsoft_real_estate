@@ -13,7 +13,7 @@ class UnitForm(ModelForm):
     class Meta:
         model = Unit
         fields = '__all__'
-        exclude = ['created', 'updated']
+        exclude = ['property', 'created', 'updated']
 
 
 class PropertyForm(ModelForm):

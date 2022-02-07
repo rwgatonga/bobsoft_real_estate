@@ -60,20 +60,26 @@ def registerPage(request):
 
 @login_required(login_url='login')
 def home(request):
-    return render(request, 'property/home.html')
+    properties = Property.objects.all()
+    units = Unit.objects.filter(status="Vacant")
+    tenants = Profile.objects.filter(type__name="tenant")
+    context = {'properties': properties, 'units': units, 'tenants': tenants}
+    return render(request, 'property/home.html', context)
 
 
 @login_required(login_url='login')
 def profile_types(request):
+    show_form = False
     profile_types = Profile_Type.objects.all()
-    context = {'profile_types': profile_types}
+    context = {'profile_types': profile_types, 'show_form': show_form}
     return render(request, 'property/profile_types.html', context)
 
 
 @login_required(login_url='login')
 def create_profile_type(request):
+    show_form = True
     profile_types = Profile_Type.objects.all()
-    context = {'profile_types': profile_types}
+    context = {'profile_types': profile_types, 'show_form': show_form}
 
     if request.method == 'POST':
         profile_type = request.POST.get('profiletype')
@@ -85,13 +91,14 @@ def create_profile_type(request):
 
 @login_required(login_url='login')
 def update_profile_type(request, pk):
+    show_form = True
     profile_types = Profile_Type.objects.all()
     profile_type = Profile_Type.objects.get(id=pk)
-    context = {'profile_types': profile_types, 'profile_type': profile_type}
+    context = {'profile_types': profile_types, 'profile_type': profile_type, 'show_form': show_form}
 
     if request.method == 'POST':
-        profile_types = request.POST.get('typeprofile')
-        Profile_Type.objects.filter(id=pk).update(name=profile_types)
+        profile_types = request.POST.get('profiletype')
+        Profile_Type.objects.filter(id=pk).update(name=profile_type)
         return redirect('profile_types')
 
     return render(request, 'property/profile_types.html', context)
@@ -264,9 +271,9 @@ def create_property(request, princ_pk):
 @login_required(login_url='login')
 def update_property(request, pk):
     show_form = True
-    property = Profile.Property_set.filter(id=pk)
+    property = Property.objects.get(id=pk)
     principals = Profile.objects.filter(type__name='principal')
-    princ = Profile.objects.filter(name__principal=)
+    princ = property.principal
     properties = Property.objects.filter(principal=princ)
     form = PropertyForm(instance=property)
     myFilter = PropertyFilter(request.GET, queryset=properties)
@@ -299,15 +306,17 @@ def delete_property(request, pk):
 
 @login_required(login_url='login')
 def unit_types(request):
+    show_form = False
     unit_types = Unit_Type.objects.all()
-    context = {'unit_types': unit_types}
+    context = {'unit_types': unit_types, 'show_form': show_form}
     return render(request, 'property/unit_types.html', context)
 
 
 @login_required(login_url='login')
 def create_unit_type(request):
+    show_form = True
     unit_types = Unit_Type.objects.all()
-    context = {'unit_types': unit_types}
+    context = {'unit_types': unit_types, 'show_form': show_form}
 
     if request.method == 'POST':
         unit_type = request.POST.get('unittype')
@@ -319,10 +328,11 @@ def create_unit_type(request):
 
 @login_required(login_url='login')
 def update_unit_type(request, pk):
+    show_form = True
     unit_types = Unit_Type.objects.all()
     unit_type = Unit_Type.objects.get(id=pk)
     context = {'unit_types': unit_types,
-               'unit_type': unit_type}
+               'unit_type': unit_type, 'show_form': show_form}
 
     if request.method == 'POST':
         unit_type = request.POST.get('unittype')
@@ -345,29 +355,34 @@ def delete_unit_type(request, pk):
 @login_required(login_url='login')
 def units(request):
     show_form = False
+    properties = Property.objects.all()
     form = UnitForm()
     units = Unit.objects.all()
     myFilter = UnitFilter(request.GET, queryset=units)
     units = myFilter.qs
     context = {'show_form': show_form, 'form': form,
-               'units': units, 'myFilter': myFilter}
+               'units': units, 'myFilter': myFilter,  'properties': properties}
     return render(request, 'property/units.html', context)
 
 
 @login_required(login_url='login')
-def create_unit(request):
+def create_unit(request, pk):
     show_form = True
+    property = Property.objects.get(id=pk)
+    properties = Property.objects.all()
     form = UnitForm()
     units = Unit.objects.all()
     myFilter = UnitFilter(request.GET, queryset=units)
     units = myFilter.qs
     context = {'show_form': show_form, 'form': form,
-               'units': units, 'myFilter': myFilter}
+               'units': units, 'myFilter': myFilter, 'property': property, 'properties': properties}
 
     if request.method == 'POST':
         form = UnitForm(request.POST)
         if form.is_valid():
-            form.save()
+            unit = form.save(commit=False)
+            unit.property = property
+            unit.save()
             return redirect('units')
         else:
             messages.error(request, " Something went wrong")
